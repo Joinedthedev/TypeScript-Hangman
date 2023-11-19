@@ -17,7 +17,7 @@ const HangmanWord = ({ guessedLetters, wordToGuess }: HangmanWordProps) => {
       }}
     >
       {/** Code below takes the word in use and splits it into individual letters
-       *  a platform for the word gets mapped to the screen for each letter based on index*/}
+       *  a platform for each letter gets mapped to the screen for each letter based on index*/}
       {wordToGuess.split("").map((letter, index) => (
         <span style={{ borderBottom: ".1em solid black" }} key={index}>
           <span
