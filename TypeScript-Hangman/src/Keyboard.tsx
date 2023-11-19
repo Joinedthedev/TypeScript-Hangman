@@ -1,6 +1,15 @@
 import React from "react";
-import styles from "./Keyboard.module.css"
-const Keyboard = () => {
+import styles from "./Keyboard.module.css";
+type KeyboardProps = {
+  activeLetters: string[];
+  inactiveLetters: string[];
+  addGuessedLetter: (letter: string) => void;
+};
+const Keyboard = ({
+  activeLetters,
+  inactiveLetters,
+  addGuessedLetter,
+}: KeyboardProps) => {
   const KEYS = [
     "a",
     "b",
@@ -38,9 +47,22 @@ const Keyboard = () => {
         gap: ".5rem",
       }}
     >
-        {/** Maps each letter from KEYS array as a button on to the screen */}
+      {/** Maps each letter from KEYS array as a button on to the screen */}
       {KEYS.map((key) => {
-        return <button className={styles.btn} key={key}>{key}</button>;
+        const isActive = activeLetters.includes(key);
+        const isInactive = inactiveLetters.includes(key);
+        return (
+          <button
+            onClick={() => addGuessedLetter(key)}
+            className={`${styles.btn} ${isActive ? styles.active : ""} ${
+              isInactive ? styles.isInactive : ""
+            }`}
+            disabled ={isInactive || isActive}
+            key={key}
+          >
+            {key}
+          </button>
+        );
       })}
     </div>
   );

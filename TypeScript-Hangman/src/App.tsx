@@ -4,6 +4,7 @@ import HangmanDrawing from "./HangmanDrawing";
 import Keyboard from "./Keyboard";
 import HangmanWord from "./HangmanWord";
 
+
 function App() {
   /** The code below returns a random word from our wordlist and tracks the word being used */
   const [wordToGuess, setWordToGuess] = useState(() => {
@@ -20,15 +21,18 @@ function App() {
   console.log(wordToGuess);
 
   /** The main purpose of this function is to add the guessed letter inputed by the user to the array of guessed letters.
-   * UsecallBack is being used here to prevent it from being reran everytime our component is rendered. Now, it will only when 
+   * UsecallBack is being used here to prevent it from being reran everytime our component is rendered. Now, it will only render when
    * the guessed letters change.
    */
-  const addGuessedLetter = useCallback((letter: string) => {
-    if (guessedLetters.includes(letter)) return;
+  const addGuessedLetter = useCallback(
+    (letter: string) => {
+      if (guessedLetters.includes(letter)) return;
 
-    //takes the current letters in the array and adds the new letter to them using spread operator
-    setGuessedLetter((currentLetters) => [...currentLetters, letter]);
-  }, [guessedLetters]);
+      //takes the current letters in the array and adds the new letter to them using spread operator
+      setGuessedLetter((currentLetters) => [...currentLetters, letter]);
+    },
+    [guessedLetters]
+  );
 
   /**This handles all of the keypresses. 
   It first checks if the key pressed is within a-z. If so it takes whatever key is pressed and adds it to the guessed letters.**/
@@ -51,6 +55,7 @@ function App() {
   return (
     <div
       style={{
+        
         maxWidth: "800px",
         display: "flex",
         flexDirection: "column",
@@ -64,7 +69,14 @@ function App() {
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
       <HangmanWord guessedLetters={guessedLetters} wordToGuess={wordToGuess} />
       <div style={{ alignSelf: "stretch" }}>
-        <Keyboard />
+        <Keyboard
+          activeLetters={guessedLetters.filter((letter) =>
+            wordToGuess.includes(letter)
+          )}
+
+          inactiveLetters = {incorrectLetters}
+          addGuessedLetter  = {addGuessedLetter}
+        />
       </div>
     </div>
   );
